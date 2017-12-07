@@ -20,6 +20,8 @@ namespace Extendable
             field.CreatedUtc = utcNow;
             field.LastUpdatedUtc = utcNow;
 
+            field.Id = Guid.NewGuid().ToString();
+
             return field;
         }
     }

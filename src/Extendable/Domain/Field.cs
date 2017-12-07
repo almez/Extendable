@@ -2,9 +2,9 @@
 
 namespace Extendable.Domain
 {
-    internal sealed class Field
+    public sealed class Field
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string HolderType { get; set; }
 
