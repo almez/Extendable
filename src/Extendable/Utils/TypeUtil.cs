@@ -5,6 +5,10 @@ namespace Extendable.Utils
 {
     public class TypeUtil
     {
+        public static int IntSize => sizeof(int);
+
+        public static int StringSize(string str) => (str?.Length ?? 0) * sizeof(char);
+
         public static T ChangeType<T>(object value, T defaultValue = default(T))
         {
             try

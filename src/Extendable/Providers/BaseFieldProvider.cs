@@ -1,4 +1,5 @@
 ﻿using System;
+using CachingManager;
 using Extendable.Abstraction;
 using Extendable.Domain;
 using Extendable.Utils;
@@ -7,6 +8,12 @@ namespace Extendable.Providers
 {
     public abstract class BaseFieldProvider : IFieldProvider
     {
+        #region Fields
+
+        public Lazy<Cache<Field, string>> FieldCache = new Lazy<Cache<Field, string>>(() => CacheFactory.CreateCache<Field, string>("Field Cache", Configuration.CacheSizeLimit));
+
+        #endregion
+
         #region Public Methods
 
         /// <inheritdoc />
@@ -31,15 +38,6 @@ namespace Extendable.Providers
         }
 
         /// <inheritdoc />
-        public Field GetField(string holderType, string holderId, string fieldName, string language = "en")
-        {
-            //todo :  get from cache
-
-            var field = GetFieldFromDb(holderType, holderId, fieldName, language);
-
-            return field;
-        }
-
         public TValue GetFieldValue<TValue>(string holderType, string holderId, string fieldName, TValue defaultValue = default(TValue), string language = "en")
         {
             var field = GetField(holderType, holderId, fieldName, language);
@@ -52,13 +50,39 @@ namespace Extendable.Providers
         }
 
         /// <inheritdoc />
+        public Field GetField(string holderType, string holderId, string fieldName, string language = "en")
+        {
+            Field field = null;
+
+            if (Configuration.CacheEnabled)
+            {
+                var cacheEntryId = CacheEntryIdFormatter(holderType, holderId, fieldName, language);
+
+                field = this.FieldCache.Value[cacheEntryId];
+            }
+
+            if (field == null)
+            {
+                field = GetFieldFromDb(holderType, holderId, fieldName, language);
+            }
+
+            return field;
+        }
+
+        /// <inheritdoc />
         public void AddField(string holderType, string holderId, string fieldName, string serializedFieldValue, string language = "en")
         {
             var field = FieldFactory.CreateField(holderType, holderId, fieldName, serializedFieldValue, language);
 
             AddFieldValueToDb(field);
 
-            //todo : update cache
+            if (Configuration.CacheEnabled)
+            {
+                var cacheEntryId = CacheEntryIdFormatter(holderType, holderId, fieldName, language);
+
+                 this.FieldCache.Value[cacheEntryId] = field;
+            }
+
         }
 
         /// <inheritdoc />
@@ -71,7 +95,12 @@ namespace Extendable.Providers
 
             this.UpdateFieldInDb(field);
 
-            //todo : update cache
+            if (Configuration.CacheEnabled)
+            {
+                var cacheEntryId = CacheEntryIdFormatter(holderType, holderId, fieldName, language);
+
+                this.FieldCache.Value[cacheEntryId] = field;
+            }
         }
 
         #endregion
@@ -86,6 +115,15 @@ namespace Extendable.Providers
 
         /// <inheritdoc />
         public abstract void UpdateFieldInDb(Field field);
+
+        #endregion
+
+        #region Private Methods
+
+        private string CacheEntryIdFormatter(string holderType, string holderId, string fieldName, string language = "en")
+        {
+            return $"{holderType}_{holderId}_{fieldName}_{language}";
+        }
 
         #endregion
     }
