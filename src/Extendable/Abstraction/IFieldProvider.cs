@@ -1,4 +1,5 @@
-﻿using Extendable.Domain;
+﻿using System.Linq;
+using Extendable.Domain;
 
 namespace Extendable.Abstraction
 {
@@ -72,6 +73,11 @@ namespace Extendable.Abstraction
         /// Clear any cached fields
         /// </summary>
         void ClearCachedFields();
+
+        /// <summary>
+        /// Get Saved Fields as IQueryable
+        /// </summary>
+        IQueryable<Field> QueryAllFields();
         #endregion
 
         #region Abstract Methods

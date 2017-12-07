@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CachingManager;
 using Extendable.Abstraction;
 using Extendable.Domain;
@@ -125,6 +126,8 @@ namespace Extendable.Providers
         /// <inheritdoc />
         public abstract void UpdateFieldInDb(Field field);
 
+        /// <inheritdoc />
+        public abstract IQueryable<Field> QueryAllFields();
         #endregion
 
         #region Private Methods

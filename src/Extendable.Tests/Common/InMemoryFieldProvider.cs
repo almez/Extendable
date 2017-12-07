@@ -25,6 +25,11 @@ namespace Extendable.Tests.Common
             }
         }
 
+        public override IQueryable<Field> QueryAllFields()
+        {
+            return _dbTable.AsQueryable();
+        }
+
         public override Field GetFieldFromDb(string holderType, string holderId, string fieldName, string language = "en")
         {
             return _dbTable.FirstOrDefault(x => x.HolderType == holderType &&
