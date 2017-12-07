@@ -5,7 +5,7 @@ namespace Extendable
 {
     internal class FieldFactory
     {
-        internal static Field CreateField(string holderType, string holderId, string fieldName, string fieldValue, string language)
+        internal static Field CreateField(string holderType, string holderId, string fieldName, string fieldValue, string language = "en")
         {
             var field = new Field()
             {
