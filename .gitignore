@@ -5,3 +5,5 @@
 /src/.vs/Extendable/v15
 /src/Extendable/obj
 /src/Extendable/bin/Debug/netcoreapp2.0
+/src/Extendable.Tests/bin/Debug/netcoreapp2.0
+/src/Extendable.Tests/obj
