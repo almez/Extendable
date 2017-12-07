@@ -1,6 +1,7 @@
 ﻿using System;
 using Extendable.Abstraction;
 using Extendable.Domain;
+using Extendable.Utils;
 
 namespace Extendable.Providers
 {
@@ -37,6 +38,17 @@ namespace Extendable.Providers
             var field = GetFieldFromDb(holderType, holderId, fieldName, language);
 
             return field;
+        }
+
+        public TValue GetFieldValue<TValue>(string holderType, string holderId, string fieldName, TValue defaultValue = default(TValue), string language = "en")
+        {
+            var field = GetField(holderType, holderId, fieldName, language);
+
+            if (field == null) return defaultValue;
+
+            var deserializedFieldValue = TypeUtil.ChangeType(field.FieldValue, defaultValue);
+
+            return deserializedFieldValue;
         }
 
         /// <inheritdoc />

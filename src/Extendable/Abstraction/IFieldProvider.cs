@@ -57,6 +57,16 @@ namespace Extendable.Abstraction
         /// <returns></returns>
         bool IsExist(string holderType, string holderId, string fieldName, string language = "en");
 
+        /// <summary>
+        /// Get Dynamic field value, it will tries to get the value from cache first.
+        /// </summary>
+        /// <param name="holderType">The type name that contains this dynamic field</param>
+        /// <param name="holderId">The type isntance that contains this dynamic field</param>
+        /// <param name="fieldName">The dynamic field name</param>
+        /// <param name="defaultValue">The value returned if no existing value there</param>
+        /// <param name="language">in-case of your system in multi-language, this parameter represents language code</param>
+        /// <returns></returns>
+        TValue GetFieldValue<TValue>(string holderType, string holderId, string fieldName, TValue defaultValue = default(TValue), string language = "en");
         #endregion
 
         #region Abstract Methods
