@@ -67,6 +67,11 @@ namespace Extendable.Abstraction
         /// <param name="language">in-case of your system in multi-language, this parameter represents language code</param>
         /// <returns></returns>
         TValue GetFieldValue<TValue>(string holderType, string holderId, string fieldName, TValue defaultValue = default(TValue), string language = "en");
+
+        /// <summary>
+        /// Clear any cached fields
+        /// </summary>
+        void ClearCachedFields();
         #endregion
 
         #region Abstract Methods

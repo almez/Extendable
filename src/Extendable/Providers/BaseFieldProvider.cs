@@ -50,6 +50,15 @@ namespace Extendable.Providers
         }
 
         /// <inheritdoc />
+        public void ClearCachedFields()
+        {
+            if (Configuration.CacheEnabled)
+            {
+                this.FieldCache.Value.Clear();
+            }
+        }
+
+        /// <inheritdoc />
         public Field GetField(string holderType, string holderId, string fieldName, string language = "en")
         {
             Field field = null;
