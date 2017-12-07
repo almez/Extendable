@@ -2,5 +2,6 @@
 {
     public interface IExtendable
     {
+        int Id { set; get; }
     }
 }
