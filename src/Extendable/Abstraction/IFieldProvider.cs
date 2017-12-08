@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Extendable.Domain;
+﻿using Extendable.Domain;
 
 namespace Extendable.Abstraction
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Extendable.Abstraction;
-using Extendable.Domain;
+﻿using System.Linq;
 using Extendable.Tests.Domain;
 using Extendable.Tests.Providers;
 using Xunit;
