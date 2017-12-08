@@ -166,7 +166,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Alden Menzalgy** - *Software Engineer* - [https://github.com/almez](https://github.com/almez)
 
-See also the list of [contributors](https://github.com/almez/CachingManager/graphs/contributors) who participated in this project (if any).
+See also the list of [contributors](https://github.com/almez/CachingManager/graphs/contributors) who participated in this project.
 
 ## License
 
