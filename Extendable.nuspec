@@ -14,7 +14,7 @@
     <copyright>Copyright 2017</copyright>
     <tags>.NETCORE2.0 MemoryCache Cache</tags>
     <dependencies>
-      <dependency id="Microsoft.Extensions.Caching.Memory" version="2.0.0" />
+      <dependency id="CachingManager" version="1.0.21" />
     </dependencies>
   </metadata>
 </package>
