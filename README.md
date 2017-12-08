@@ -147,7 +147,7 @@ int age = user.GetAttribute<<b>int</b>>("Age");
 
 ## Build Server
 
-A little bit later I'll paste the build server link here.
+[![Build status](https://ci.appveyor.com/api/projects/status/ny9uauwnnyo70s3l?svg=true)](https://ci.appveyor.com/project/almez/extendable)
 
 ## Dependencies
 
@@ -160,7 +160,7 @@ Feel free to contribute to this repository, you can reach me out by the email [e
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning.
 
 ## Authors
 
