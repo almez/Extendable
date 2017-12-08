@@ -72,7 +72,7 @@ Task("Package")
 		NuGetPack("./Extendable.nuspec", 
 					new NuGetPackSettings() {
                                      Version = buildVersion,
-                                     Files = new [] { new NuSpecContent {Source = "./src/Extendable/bin/Release/netcoreapp2.0/CachingManager.dll", Target = "lib/netcoreapp2.0"}, },
+                                     Files = new [] { new NuSpecContent {Source = "./src/Extendable/bin/Release/netcoreapp2.0/Extendable.dll", Target = "lib/netcoreapp2.0"}, },
 											});
 				});
 
