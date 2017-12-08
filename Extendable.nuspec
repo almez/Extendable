@@ -12,7 +12,7 @@
     <description>.NET Core 2.0 Introduce new fields to your types dynamically.</description>
     <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright 2017</copyright>
-    <tags>.NETCORE2.0 MemoryCache Cache</tags>
+    <tags>.NETCORE2.0 MemoryCache Dynamic_Fields Extensible_Types Extendable</tags>
     <dependencies>
       <dependency id="CachingManager" version="1.0.21" />
     </dependencies>
