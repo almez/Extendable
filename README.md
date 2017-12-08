@@ -52,12 +52,12 @@ PM> Install-Package Extendable
 * Firstly, Implement IExtendable interface in the types that you want to extend with dynamic fields
 
 <pre>
-    public class User : <b>IExtendable</b>
-    {
-        public int Id { get; set; }
+public class User : <b>IExtendable</b>
+{
+    public int Id { get; set; }
 
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
+}
 </pre>
 
 * Then, create your own field provider to store field values to your permanent store (SQL Server, Oracle, Files, Xml ..etc)
@@ -65,52 +65,52 @@ All what you need is to override these 3 methods. All other methods will work fi
  
  Here you can find example of Implementing such provider with EntityFramework for instance.
  
- <pre>
- 	public class ApplicationDbContext : DbContext
+<pre>
+public class ApplicationDbContext : DbContext
+{
+    // ...
+
+    <b>public DbSet<Field> Fields { set; get; }</b>
+
+    // ...
+}
+
+public class EntityFrameworkFieldProvider : <b>BaseFieldProvider</b>
+{
+    <b>public override void UpdateFieldInDb(Field field)</b>
     {
-        // ...
+        using (var context = new ApplicationDbContext())
+        {
+            var entity = context.Fields.Find(field.Id);
 
-        <b>public DbSet<Field> Fields { set; get; }</b>
+            entity.LastUpdatedUtc = field.LastUpdatedUtc;
+            entity.FieldValue = field.FieldValue;
 
-        // ...
+            context.SaveChanges();
+        }
     }
 
-    public class EntityFrameworkFieldProvider : <b>BaseFieldProvider</b>
+    <b>public override Field GetFieldFromDb(string holderType, string holderId, string fieldName, string language = "en")</b>
     {
-        <b>public override void UpdateFieldInDb(Field field)</b>
+        using (var context = new ApplicationDbContext())
         {
-            using (var context = new ApplicationDbContext())
-            {
-                var entity = context.Fields.Find(field.Id);
-
-                entity.LastUpdatedUtc = field.LastUpdatedUtc;
-                entity.FieldValue = field.FieldValue;
-
-                context.SaveChanges();
-            }
-        }
-
-        <b>public override Field GetFieldFromDb(string holderType, string holderId, string fieldName, string language = "en")</b>
-        {
-            using (var context = new ApplicationDbContext())
-            {
-                return context.Fields.SingleOrDefault(f => f.HolderType == holderType
-                                                           && f.HolderId == holderId
-                                                           && f.FieldName == fieldName
-                                                           && f.Language == language);
-            }
-        }
-
-        <b>public override void AddFieldValueToDb(Field field)</b>
-        {
-            using (var context = new ApplicationDbContext())
-            {
-                context.Fields.Add(field);
-
-                context.SaveChanges();
-            }
+            return context.Fields.SingleOrDefault(f => f.HolderType == holderType
+                                                        && f.HolderId == holderId
+                                                        && f.FieldName == fieldName
+                                                        && f.Language == language);
         }
     }
+
+    <b>public override void AddFieldValueToDb(Field field)</b>
+    {
+        using (var context = new ApplicationDbContext())
+        {
+            context.Fields.Add(field);
+
+            context.SaveChanges();
+        }
+    }
+}
 </pre>
 
 You can find another example here [InMemoryFieldProvider](https://github.com/almez/Extendable/blob/master/src/Extendable.Tests/Providers/InMemoryFieldProvider.cs) for testing purposes.
@@ -130,19 +130,19 @@ Extendable.Configuration.<b>CacheSizeLimit</b> = 1 * 1024 * 1024; // 1 MB by def
 * Now you can set new dynamic fields to your object as simple as 
 
 <pre>
-	<b>//Set Attributes</b>
-	user.SetAttribute("LastName", <b>"Menz"</b>);
-	user.SetAttribute("LastName", "الكنية", "ar");
-	user.SetAttribute("LastName", "soyadı", "tr");
+<b>//Set Attributes</b>
+user.SetAttribute("LastName", <b>"Menz"</b>);
+user.SetAttribute("LastName", "الكنية", "ar");
+user.SetAttribute("LastName", "soyadı", "tr");
 
-	user.SetAttribute("Age", <b>28</b>);
+user.SetAttribute("Age", <b>28</b>);
 
-	<b>//Get Attributes</b>
-	string enLastName = user.GetAttribute<<b>string</b>>("LastName");
-	string arLastName = user.GetAttribute<string>("LastName", "ar");
-	string trLastName = user.GetAttribute<string>("LastName", "tr");
+<b>//Get Attributes</b>
+string enLastName = user.GetAttribute<<b>string</b>>("LastName");
+string arLastName = user.GetAttribute<string>("LastName", "ar");
+string trLastName = user.GetAttribute<string>("LastName", "tr");
 
-	int age = user.GetAttribute<<b>int</b>>("Age");
+int age = user.GetAttribute<<b>int</b>>("Age");
 </pre>
 
 ## Build Server
