@@ -7,3 +7,8 @@
 /src/Extendable/bin/Debug/netcoreapp2.0
 /src/Extendable.Tests/bin/Debug/netcoreapp2.0
 /src/Extendable.Tests/obj
+/src/Extendable/bin/Release/netcoreapp2.0
+/src/Extendable.Tests/bin/Release/netcoreapp2.0
+tools/**
+!tools/packages.config
+/.vs

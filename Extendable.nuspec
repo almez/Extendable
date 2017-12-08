@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Extendable</id>
+    <!--<version>1.0.0</version>-->
+    <authors>Alden Menzalgy</authors>
+    <owners>Alden Menzalgy</owners>
+    <licenseUrl>https://github.com/almez/Extendable/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/almez/Extendable</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET Core 2.0 Introduce new fields to your types dynamically.</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>.NETCORE2.0 MemoryCache Cache</tags>
+    <dependencies>
+      <dependency id="Microsoft.Extensions.Caching.Memory" version="2.0.0" />
+    </dependencies>
+  </metadata>
+</package>
