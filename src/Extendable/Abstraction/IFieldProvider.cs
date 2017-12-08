@@ -56,7 +56,7 @@ namespace Extendable.Abstraction
         /// <param name="fieldName">The dynamic field name</param>
         /// <param name="language">in-case of your system in multi-language, this parameter represents language code</param>
         /// <returns></returns>
-        bool IsExist(string holderType, string holderId, string fieldName, string language = "en");
+        bool Exists(string holderType, string holderId, string fieldName, string language = "en");
 
         /// <summary>
         /// Get Dynamic field value, it will tries to get the value from cache first.
@@ -74,10 +74,10 @@ namespace Extendable.Abstraction
         /// </summary>
         void ClearCachedFields();
 
-        /// <summary>
-        /// Get Saved Fields as IQueryable
-        /// </summary>
-        IQueryable<Field> QueryAllFields();
+        ///// <summary>
+        ///// Get Saved Fields as IQueryable, It's not mandatory to implement if you won't use it
+        ///// </summary>
+        //IQueryable<Field> QueryAllFields();
         #endregion
 
         #region Abstract Methods

@@ -4,13 +4,13 @@ using System.Linq;
 using Extendable.Domain;
 using Extendable.Providers;
 
-namespace Extendable.Tests.Common
+namespace Extendable.Tests.Providers
 {
     public class InMemoryFieldProvider : BaseFieldProvider
     {
         #region Fields
 
-        private readonly List<Field> _dbTable = new List<Field>();
+        public readonly List<Field> DbTable = new List<Field>();
 
         #endregion
 
@@ -18,21 +18,21 @@ namespace Extendable.Tests.Common
 
         public override void UpdateFieldInDb(Field field)
         {
-            if (_dbTable.Any(x => x.Id == field.Id))
+            if (this.DbTable.Any(x => x.Id == field.Id))
             {
-                _dbTable.Remove(_dbTable.Single(x => x.Id == field.Id));
-                _dbTable.Add(field);
+                this.DbTable.Remove(this.DbTable.Single(x => x.Id == field.Id));
+                this.DbTable.Add(field);
             }
         }
 
-        public override IQueryable<Field> QueryAllFields()
+        public List<Field> ListFields()
         {
-            return _dbTable.AsQueryable();
+            return this.DbTable;
         }
 
         public override Field GetFieldFromDb(string holderType, string holderId, string fieldName, string language = "en")
         {
-            return _dbTable.FirstOrDefault(x => x.HolderType == holderType &&
+            return this.DbTable.FirstOrDefault(x => x.HolderType == holderType &&
                                                 x.HolderId == holderId &&
                                                 x.FieldName == fieldName &&
                                                 x.Language == language);
@@ -40,7 +40,7 @@ namespace Extendable.Tests.Common
 
         public override void AddFieldValueToDb(Field field)
         {
-            _dbTable.Add(field);
+            this.DbTable.Add(field);
         }
 
         #endregion

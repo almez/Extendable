@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CachingManager;
 using Extendable.Abstraction;
 using Extendable.Domain;
@@ -11,7 +10,16 @@ namespace Extendable.Providers
     {
         #region Fields
 
-        public Lazy<Cache<Field, string>> FieldCache = new Lazy<Cache<Field, string>>(() => CacheFactory.CreateCache<Field, string>("Field Cache", Configuration.CacheSizeLimit));
+        private Lazy<Cache<Field, string>> _fieldCache = new Lazy<Cache<Field, string>>(() =>
+        {
+            var cacheName = "Fields Cache";
+            var cache =  CacheManager.Instance.FindCacheByName(cacheName);
+            if (cache == null)
+            {
+                cache = CacheFactory.CreateCache<Field, string>(cacheName, Configuration.CacheSizeLimit);
+            }
+            return (Cache<Field, string>) cache;
+        });
 
         #endregion
 
@@ -22,7 +30,7 @@ namespace Extendable.Providers
         {
             var serializedFieldValue = fieldValue.ToString();
 
-            if (this.IsExist(holderType, holderId, fieldName, language))
+            if (this.Exists(holderType, holderId, fieldName, language))
             {
                 this.UpdateField(holderType, holderId, fieldName, serializedFieldValue, language);
             }
@@ -30,12 +38,6 @@ namespace Extendable.Providers
             {
                 this.AddField(holderType, holderId, fieldName, serializedFieldValue, language);
             }
-        }
-
-        /// <inheritdoc />
-        public bool IsExist(string holderType, string holderId, string fieldName, string language = "en")
-        {
-            return this.GetField(holderType, holderId, fieldName, language) != null;
         }
 
         /// <inheritdoc />
@@ -51,11 +53,17 @@ namespace Extendable.Providers
         }
 
         /// <inheritdoc />
+        public bool Exists(string holderType, string holderId, string fieldName, string language = "en")
+        {
+            return this.GetField(holderType, holderId, fieldName, language) != null;
+        }
+
+        /// <inheritdoc />
         public void ClearCachedFields()
         {
             if (Configuration.CacheEnabled)
             {
-                this.FieldCache.Value.Clear();
+                this._fieldCache.Value.Clear();
             }
         }
 
@@ -68,7 +76,7 @@ namespace Extendable.Providers
             {
                 var cacheEntryId = CacheEntryIdFormatter(holderType, holderId, fieldName, language);
 
-                field = this.FieldCache.Value[cacheEntryId];
+                field = this._fieldCache.Value[cacheEntryId];
             }
 
             if (field == null)
@@ -90,7 +98,7 @@ namespace Extendable.Providers
             {
                 var cacheEntryId = CacheEntryIdFormatter(holderType, holderId, fieldName, language);
 
-                 this.FieldCache.Value[cacheEntryId] = field;
+                this._fieldCache.Value[cacheEntryId] = field;
             }
 
         }
@@ -109,11 +117,13 @@ namespace Extendable.Providers
             {
                 var cacheEntryId = CacheEntryIdFormatter(holderType, holderId, fieldName, language);
 
-                this.FieldCache.Value[cacheEntryId] = field;
+                this._fieldCache.Value[cacheEntryId] = field;
             }
         }
 
         #endregion
+
+      
 
         #region Abstract Methods
 
@@ -126,8 +136,8 @@ namespace Extendable.Providers
         /// <inheritdoc />
         public abstract void UpdateFieldInDb(Field field);
 
-        /// <inheritdoc />
-        public abstract IQueryable<Field> QueryAllFields();
+        ///// <inheritdoc />
+        //public abstract IQueryable<Field> QueryAllFields();
         #endregion
 
         #region Private Methods
