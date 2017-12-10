@@ -18,8 +18,8 @@
 * Multi-Languages support for your fields.
 
   ```
-  obj.SetAttribute("LastName", "Menz", "ar);
-  string arLastName = obj.GetAttribute<string>("LastName", "ar)
+  obj.SetAttribute("LastName", "Menz", "ar");
+  string arLastName = obj.GetAttribute<string>("LastName", "ar")
   ```
 
 * Work with any data provider (SQL Server, Oracle ..etc) as you are the one who implements the field provider.
